@@ -7,7 +7,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-$ponteiro = fopen('updatetoken.txt', "r");
+$ponteiro = fopen('updatetoken.txt', "rt");
 while (!feof($ponteiro)) {
     $linha = fgets($ponteiro, 4096);
 }
@@ -17,7 +17,7 @@ $str = file_get_contents($file);
 $arrUpdateId = explode(',', $str);
 
 function sendMessage($id, $texto) {
-    $ponteiro = fopen('updatetoken.txt', "r");
+    $ponteiro = fopen('updatetoken.txt', "rt");
     while (!feof($ponteiro)) {
         $linha = fgets($ponteiro, 4096);
     }
