@@ -2,7 +2,7 @@
 // eduardo rodrigues fernandes
 //  Matricula:201611386 
 //..//
-
+require './Data.php';
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -15,6 +15,7 @@ while (!feof($ponteiro)) {
 $file = 'updateId.txt';
 $str = file_get_contents($file);
 $arrUpdateId = explode(',', $str);
+
 
 function sendMessage($id, $texto) {
     $ponteiro = fopen('updatetoken.txt', "r");
@@ -35,11 +36,10 @@ $idsuniq = array();
 $y = 0;
 for ($x = $var; $x > -1; $x--) {
     
-    $date = $resultado ['result'][$x]['message']['date'];
+    $data = $resultado ['result'][$x]['message']['date'];
     echo "<br>";
-    date_default_timezone_set('America/Sao_Paulo');
-    print gmdate('d/m/Y-(H:i:s)', $date);
-
+    $dataTratada = Data::tratarData($data);
+    echo  $dataTratada ;
     echo "<br>";
     $nome = $resultado['result'][$x] ['message']['from']['first_name'];
     echo $nome . " : ";
@@ -49,6 +49,8 @@ for ($x = $var; $x > -1; $x--) {
     echo "<br>";
     $updateId = $resultado ['result'][$x]['update_id'];
     echo "<br>";
+    
+    
     
     $idsuniq[$y] = $id;
     $y = $y + 1;
