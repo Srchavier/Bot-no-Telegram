@@ -1,4 +1,3 @@
 //Coloque seu token aki para começa:
-//exemplo:254733572:AAFnOEV7Hu8puguGvqay3gMWfH2m_Rqkqkc
+//exemplo:254733572:AAFnOEV7Hu8puguGvqay3gMWfH2m
 //<------------------------------------------------------------------------------->
-254733572:AAFnOEV7Hu8puguGvqay3gMWfH2m_Rqkqkc
