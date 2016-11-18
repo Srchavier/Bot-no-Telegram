@@ -52,15 +52,16 @@ for ($x = $var; $x > -1; $x--) {
     $updateId = $resultado ['result'][$x]['update_id'];
     echo "<br>";
 
-    $ins = "insert into" . " BD_resposta(id,nome,mensagem)" . " VALUES(?, ?, ?)";
-    $stmt = BD_telegam::connect()->prepare($ins);
-    $stmt->bindParam(1, $id);
-    $stmt->bindParam(2, $nome);
-    $stmt->bindParam(3, $texto);
-    $stmt->execute();
 
     $idsuniq[$y] = $id;
     $y = $y + 1;
+
+    $ins = "insert into" . " BD_resposta(id,nome,mensagem)" . " VALUES(?, ?, ?)";
+    $stmt = BD_telegam::connect()->prepare($ins);
+    $stmt->bindParam(1, $updateId);
+    $stmt->bindParam(2, $nome);
+    $stmt->bindParam(3, $texto);
+    $stmt->execute();
 
     $texto1 = preg_match('/^.*\/megasena$/', $texto);
     if (!in_array($updateId, $arrUpdateId)) {

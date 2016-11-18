@@ -13,4 +13,3 @@ CREATE TABLE BD_resposta (
 
 select * from BD_resposta;
 
-drop table BD_resposta;
