@@ -5,38 +5,25 @@
 //..//
 require './Data.php';
 require './BD_telegam.php';
+require './enviar_mensagem.php';
+require './tokenn.php';
+require './recebendo_mensagem.php';
+
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-$ponteiro = fopen('updatetoken.txt', "r");
-while (!feof($ponteiro)) {
-    $linha = fgets($ponteiro, 4096);
-}
-
 $file = 'updateId.txt';
 $str = file_get_contents($file);
 $arrUpdateId = explode(',', $str);
 
-function sendMessage($id, $texto) {
-    $ponteiro = fopen('updatetoken.txt', "r");
-    while (!feof($ponteiro)) {
-        $linha = fgets($ponteiro, 4096);
-    }
-    $token = $linha;
-    $url1 = 'https://api.telegram.org/bot' . $token . '/sendMessage?';
-    file_get_contents($url1 . "chat_id=" . $id . "&text=" . $texto);
-}
+$resultado = recebendo_mensagem::upload();
 
-$URL = 'https://api.telegram.org/bot' . $linha . '/getUpdates';
-$requisicao = file_get_contents($URL);
-$resultado = json_decode($requisicao, true);
+
 $var = count($resultado['result']) - 1;
 
-$idsuniq = array();
-$y = 0;
-for ($x = $var; $x > -1; $x--) {
+for ($x = $var; $x > 0; $x--) {
 
     $data = $resultado ['result'][$x]['message']['date'];
     echo "<br>";
@@ -52,16 +39,13 @@ for ($x = $var; $x > -1; $x--) {
     $updateId = $resultado ['result'][$x]['update_id'];
     echo "<br>";
 
-
-    $idsuniq[$y] = $id;
-    $y = $y + 1;
-
     $ins = "insert into" . " BD_resposta(id,nome,mensagem)" . " VALUES(?, ?, ?)";
     $stmt = BD_telegam::connect()->prepare($ins);
     $stmt->bindParam(1, $updateId);
     $stmt->bindParam(2, $nome);
     $stmt->bindParam(3, $texto);
     $stmt->execute();
+
 
     $texto1 = preg_match('/^.*\/megasena$/', $texto);
     if (!in_array($updateId, $arrUpdateId)) {
@@ -74,10 +58,15 @@ for ($x = $var; $x > -1; $x--) {
             }
             sort($n);
             $resultadomegasena = implode(' - ', $n);
-            $teste = sendMessage($id, $resultadomegasena);
-            echo $resultadomegasena;
+
+
+            mensagem::sendMessage($id, $resultadomegasena); //ativa a funcao mensagem.
+            echo $resultadomegasena; //tras o resultando.
             file_put_contents($file, $updateId . ',', FILE_APPEND);
             echo "<br>";
         }
     }
 }
+
+
+
