@@ -1,8 +1,11 @@
 <?php
+
 // eduardo rodrigues fernandes
 //  Matricula:201611386 
 //..//
 require './Data.php';
+require './BD_telegam.php';
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -15,7 +18,6 @@ while (!feof($ponteiro)) {
 $file = 'updateId.txt';
 $str = file_get_contents($file);
 $arrUpdateId = explode(',', $str);
-
 
 function sendMessage($id, $texto) {
     $ponteiro = fopen('updatetoken.txt', "r");
@@ -35,11 +37,11 @@ $var = count($resultado['result']) - 1;
 $idsuniq = array();
 $y = 0;
 for ($x = $var; $x > -1; $x--) {
-    
+
     $data = $resultado ['result'][$x]['message']['date'];
     echo "<br>";
     $dataTratada = Data::tratarData($data);
-    echo  $dataTratada ;
+    echo $dataTratada;
     echo "<br>";
     $nome = $resultado['result'][$x] ['message']['from']['first_name'];
     echo $nome . " : ";
@@ -49,9 +51,14 @@ for ($x = $var; $x > -1; $x--) {
     echo "<br>";
     $updateId = $resultado ['result'][$x]['update_id'];
     echo "<br>";
-    
-    
-    
+
+    $ins = "insert into" . " BD_resposta(id,nome,mensagem)" . " VALUES(?, ?, ?)";
+    $stmt = BD_telegam::connect()->prepare($ins);
+    $stmt->bindParam(1, $id);
+    $stmt->bindParam(2, $nome);
+    $stmt->bindParam(3, $texto);
+    $stmt->execute();
+
     $idsuniq[$y] = $id;
     $y = $y + 1;
 
