@@ -6,7 +6,8 @@ php:
   - 5.5
   - 5.6
   - hhvm
-
+  - nightly
+  
 matrix:
   fast_finish: true
   allow_failures:
@@ -32,20 +33,16 @@ install:
   - composer global require drush/drush:6.*
 
 before_script:
-  # navigate out of module directory to prevent blown stack by recursive module lookup
-  - cd ../..
-
-  # create new site, stubbing sendmail path with true to prevent delivery errors and manually resolving drush path
-  - mysql -e 'create database travis_ci_drupal_module_example_test'
-  - php -d sendmail_path=`which true` ~/.composer/vendor/bin/drush.php --yes core-quick-drupal --profile=testing --no-server --db-url=mysql://root:@127.0.0.1/travis_ci_drupal_module_example_test --enable=simpletest travis_ci_drupal_module_example_test
-
-  # reference and enable travis_ci_drupal_module_example in build site
-  - ln -s $(readlink -e $(cd -)) travis_ci_drupal_module_example_test/drupal/sites/all/modules/travis_ci_drupal_module_example
-  - cd travis_ci_drupal_module_example_test/drupal
-  - drush --yes pm-enable travis_ci_drupal_module_example
-
-  # start a web server on port 8080, run in the background; wait for initialization
-  - drush runserver 127.0.0.1:8080 &
-  - until netstat -an 2>/dev/null | grep '8080.*LISTEN'; do true; done
+  - sudo apt-get update
+  - sudo apt-get install apache2 libapache2-mod-fastcgi
+  # enable php-fpm
+  - sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
+  - sudo a2enmod rewrite actions fastcgi alias
+  - echo "cgi.fix_pathinfo = 1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - ~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
+  # configure apache virtual hosts
+  - sudo cp -f build/travis-ci-apache /etc/apache2/sites-available/default
+  - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/default
+  - sudo service apache2 restart
 
 script: drush test-run 'Travis-CI Drupal Module Example' --uri=http://127.0.0.1:8080
