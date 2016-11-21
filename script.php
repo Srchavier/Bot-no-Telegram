@@ -9,7 +9,7 @@ require './tokenn.php';
 require './recebendo_mensagem.php';
 require './sorteador_numero.php';
 require './BD_txt_Mysql.php';
-
+//
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
