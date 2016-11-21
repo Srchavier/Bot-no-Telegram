@@ -1,0 +1,8 @@
+name = Travis-CI Drupal Módulo Exemplo
+description = Um exemplo de como configurar Travis-CI para um módulo Drupal.
+package = Desenvolvimento
+php = 5,3
+core = 7.x
+
+arquivos [] = test / drupal_unit_test_case_example.test
+arquivos [] = test / drupal_web_test_case_example.test
