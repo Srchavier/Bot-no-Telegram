@@ -1,1 +1,2 @@
 <? Php
+ include 'script.php';
