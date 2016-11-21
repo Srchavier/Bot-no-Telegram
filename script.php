@@ -82,7 +82,7 @@ for ($x = $var; $x > 0; $x--) {
         }
     }
     if (!in_array($updateId, $arrUpdateId)) {
-        $conteudo = "$updateId,$nome,$texto,$var \r\n";
+        $conteudo = "$updateId,$nome,$texto,$var,$lot \r\n";
         BD_txt_Mysql::BD_txt($conteudo, $updateId);
         file_put_contents($file, $updateId . ',', FILE_APPEND | LOCK_EX);
     }
