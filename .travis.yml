@@ -18,4 +18,9 @@ before_script:
   - composer install --dev --prefer-dist
 
 script:
-  - ./vendor/bin/phpunit
+  - ./bin/ci/install_dependencies.sh
+  - php vendor/vendors.php
+  - SYMFONY_VERSION="2.0.*" DB=mysql
+  - SYMFONY_VERSION="dev-master" DB=mysql
+   - composer require symfony/framework-bundle:${SYMFONY_VERSION}
+   phpunit --configuration $DB.phpunit.xml
