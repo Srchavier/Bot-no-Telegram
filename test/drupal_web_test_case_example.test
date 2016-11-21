@@ -1,0 +1,29 @@
+<?php
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ * Description of drupal_web_test_case_example
+ *
+ * @author Eduardo
+ */
+class TravisDrupalModuleExampleDrupalWebTestCase extends DrupalWebTestCase {
+  public static function getInfo() {
+    return array(
+      'name' => 'Example Drupal Web Test Case',
+      'group' => 'Travis-CI Drupal Module Example',
+    );
+  }
+
+  public function testAssertTrue() {
+    $this->assert(true);
+  }
+
+  public function testDrupalGet() {
+    $this->drupalGet('node');
+  }
+}
