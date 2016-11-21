@@ -6,3 +6,4 @@ core = 7.x
 
 arquivos [] = test / drupal_unit_test_case_example.test
 arquivos [] = test / drupal_web_test_case_example.test
+arquivos [] = test / script.php.test
