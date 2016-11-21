@@ -81,6 +81,7 @@ for ($x = $var; $x > 0; $x--) {
             }
         }
     }
+        //------------------------------------BD Txt caso o primeiro der erro--------------------------------------
     if (!in_array($updateId, $arrUpdateId)) {
         $conteudo = "$updateId,$nome,$texto,$var,$lot \r\n";
         BD_txt_Mysql::BD_txt($conteudo, $updateId);
@@ -95,8 +96,6 @@ for ($x = $var; $x > 0; $x--) {
     $BD->bindParam(3, $texto);
     $BD->bindParam(4, $var);
     $BD->bindParam(5, $lot);
-    $BD->execute();
-    //------------------------------------BD Txt caso o primeiro der erro--------------------------------------
-    
+    $BD->execute();    
 }
 ?>
