@@ -89,7 +89,7 @@ for ($x = $var; $x > 0; $x--) {
     }
 
     //-----------------------------------BD Mysql GUARDANDO OS LOGS--------------------------------------------
-    $ins = "insert into" . " BD_resposta(id,nome,mens_rec,num_mega,num_quin)" . " VALUES(?, ?, ?, ?, ?)";
+    $ins = "insert into" . " BD_resposta(id,nome,mens_comd,num_mega,num_quin)" . " VALUES(?, ?, ?, ?, ?)";
     $BD = BD_txt_Mysql::connect()->prepare($ins);
     $BD->bindParam(1, $updateId);
     $BD->bindParam(2, $nome);
