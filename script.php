@@ -25,65 +25,55 @@ $var = count($resultado['result']) - 1;
 
 for ($x = $var; $x > 0; $x--) {
 
-    $data = $resultado ['result'][$x]['message']['date'];
-    echo "<br>";
+    $data = $resultado['result'][$x]['message']['date'];
     $dataTratada = Data::tratarData($data);
-    echo $dataTratada;
-    echo "<br>";
     $nome = $resultado['result'][$x] ['message']['from']['first_name'];
-    echo $nome . " : ";
-    $texto = $resultado['result'][$x]['message']['text'];
-    echo $texto;
+    //$texto = $resultado['result'][$x]['message']['text'];
     $id = $resultado ['result'] [$x] ['message']['chat']['id'];
-    echo "<br>";
     $updateId = $resultado ['result'][$x]['update_id']; //salva os id no arquivo text
-    echo "<br>";
-
-
-//------------------------------------BD--------------------------------------
-    $var = null;//inicia null para bd sem sort
-    $quin= null;
 //---------------------------------------------------------------------------------------------------------
-
-    if ($texto == '/start') {
-        $texto1 = preg_match('/^.*\/start$/', $texto);
-        if (!in_array($updateId, $arrUpdateId)) {
-            if ($texto1 == 1) {
-                $mesangem = 'Parabens ' . $nome . ' acaba de ser regrista!!!!';
-                mensagem::sendMessage($id, $mesangem); //ativa a funcao mensagem.
+    if (isset($resultado['result'][$x]['message']['text'])) {
+        $texto = $resultado['result'][$x]['message']['text'];
+        if ($texto == '/start') {
+            $texto1 = preg_match('/^.*\/start$/', $texto);
+            if (!in_array($updateId, $arrUpdateId)) {
+                if ($texto1 == 1) {
+                    $mesangem = 'Parabens ' . $nome . ' acaba de ser regrista!!!!';
+                    mensagem::sendMessage($id, $mesangem); //ativa a funcao mensagem.
+                }
+            }
+        } else if ($texto == '/megasena') {
+            $texto1 = preg_match('/^.*\/megasena$/', $texto);
+            if (!in_array($updateId, $arrUpdateId)) {
+                if ($texto1 == 1) {
+                    print ("Seus Numeros da mega : ");
+                    echo "<br>";
+                    $sort = sorteador_numero::sort_meg_sen(); //ativa a funçao sorteador
+                    mensagem::sendMessage($id, $sort); //ativa a funcao mensagem.
+                    echo $sort; //tras o resultando.
+                    $var = $sort;
+                    echo "<br>";
+                }
+            }
+        } else if ($texto == '/Quina') {
+            $texto1 = preg_match('/^.*\/Quina$/', $texto);
+            if (!in_array($updateId, $arrUpdateId)) {
+                if ($texto1 == 1) {
+                    print ("Seus Numeros da quina : ");
+                    echo "<br>";
+                    $men_quin = sorteador_numero::sort_quin(); //ativa a funçao sorteador
+                    mensagem::sendMessage($id, $men_quin); //ativa a funcao mensagem.
+                    echo $men_quin; //tras o resultando.
+                    $quin = $men_quin;
+                    echo "<br>";
+                }
             }
         }
-    } else if ($texto == '/megasena') {
-        $texto1 = preg_match('/^.*\/megasena$/', $texto);
-        if (!in_array($updateId, $arrUpdateId)) {
-            if ($texto1 == 1) {
-                print ("Seus Numeros da mega : ");
-                echo "<br>";
-                $sort = sorteador_numero::sort_meg_sen(); //ativa a funçao sorteador
-                mensagem::sendMessage($id, $sort); //ativa a funcao mensagem.
-                echo $sort; //tras o resultando.
-                $var = $sort;
-                echo "<br>";
-            }
-        }
-    } else if ($texto == '/Quina') {
-        $texto1 = preg_match('/^.*\/Quina$/', $texto);
-        if (!in_array($updateId, $arrUpdateId)) {
-            if ($texto1 == 1) {
-                print ("Seus Numeros da quina : ");
-                echo "<br>";
-               $men_quin = sorteador_numero::sort_quin(); //ativa a funçao sorteador
-                mensagem::sendMessage($id, $men_quin); //ativa a funcao mensagem.
-                echo $men_quin; //tras o resultando.
-                $quin = $men_quin;
-                echo "<br>";
-               
-            }
-        }
+        echo $dataTratada . "<br>" . $nome . " : " . $texto . "<br>" . "<br>";
     }
-        //------------------------------------BD Txt caso o primeiro der erro--------------------------------------
+    //------------------------------------BD Txt caso o primeiro der erro--------------------------------------
     if (!in_array($updateId, $arrUpdateId)) {
-        $conteudo = "$updateId,$nome,$texto,$var,$quin \r\n";
+        $conteudo = "$updateId\r\n";
         BD_txt_Mysql::BD_txt($conteudo, $updateId);
         file_put_contents($file, $updateId . ',', FILE_APPEND | LOCK_EX);
     }
@@ -96,6 +86,6 @@ for ($x = $var; $x > 0; $x--) {
     $BD->bindParam(3, $texto);
     $BD->bindParam(4, $var);
     $BD->bindParam(5, $quin);
-    $BD->execute();    
+    $BD->execute();
 }
 ?>
