@@ -1,8 +1,8 @@
 
 
-create database BD_telegram;
+create database Scrip_telegram;
 
-use BD_telegram;
+use Scrip_telegram;
 
 select * from BD_resposta;
 
