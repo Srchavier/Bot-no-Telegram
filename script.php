@@ -73,8 +73,6 @@ for ($x = $var; $x > 0; $x--) {
     }
     //------------------------------------BD Txt caso o primeiro der erro--------------------------------------
     if (!in_array($updateId, $arrUpdateId)) {
-        $conteudo = "$updateId\r\n";
-        BD_txt_Mysql::BD_txt($conteudo, $updateId);
         file_put_contents($file, $updateId . ',', FILE_APPEND | LOCK_EX);
     }
 
