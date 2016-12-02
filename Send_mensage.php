@@ -44,4 +44,24 @@ class Send_mensage {
         }
     }
 
+    public static function sendcomados($id, $chat) {
+         $pon = fopen('updatetoken.txt', "r");
+        while (!feof($pon)) {
+            $linha = fgets($pon, 200);
+        }
+        
+        define('API_URL', 'https://api.telegram.org/bot' . $linha . '/');
+        $options = array(
+            'http' => array(
+                'method' => 'POST',
+                'content' => json_encode($chat),
+                'header' => "Content-Type: application/json\r\n" .
+                "Accept: application/json\r\n"
+            )
+        );
+        $context = stream_context_create($options);
+        file_get_contents(API_URL . $id, false, $context);
+        
+    }
+
 }
