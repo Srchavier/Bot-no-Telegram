@@ -2,7 +2,7 @@ create database Script_telegram;
 
 use Script_telegram;
 
-select * from BD_resposta;
+
 
 CREATE TABLE BD_resposta (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -16,6 +16,7 @@ CREATE TABLE BD_resposta (
         REFERENCES comando (id)
 );
 
+drop table BD_resposta;
 
 CREATE TABLE comando (
     id INT UNSIGNED NOT NULL,
@@ -30,5 +31,7 @@ insert into comando value
 (4,'mensagem');
 
 drop table comando;
+select * from BD_resposta;
+select * from comando;
 
 /* Data DATETIME NOT NULL DEFAULT NOW(),*/

@@ -13,19 +13,6 @@
  */
 class Send_mensage {
 
-    public static function sendMessage($id, $texto) {
-        $pon = fopen('updatetoken.txt', "r");
-        while (!feof($pon)) {
-            $linha = fgets($pon, 200);
-        }
-        try {
-            $url1 = 'https://api.telegram.org/bot' . $linha . '/sendMessage?';
-            file_get_contents($url1 . "chat_id=" . $id . "&text=" . $texto);
-        } catch (Exception $ex) {
-            print "Error message envie!: " . $ex->getMessage() . "<br/>";
-        }
-    }
-
     public static function upload() {
 
         $pon = fopen('updatetoken.txt', "r");
@@ -45,11 +32,10 @@ class Send_mensage {
     }
 
     public static function sendcomados($id, $chat) {
-         $pon = fopen('updatetoken.txt', "r");
+        $pon = fopen('updatetoken.txt', "r");
         while (!feof($pon)) {
             $linha = fgets($pon, 200);
         }
-        
         define('API_URL', 'https://api.telegram.org/bot' . $linha . '/');
         $options = array(
             'http' => array(
@@ -61,7 +47,6 @@ class Send_mensage {
         );
         $context = stream_context_create($options);
         file_get_contents(API_URL . $id, false, $context);
-        
     }
 
 }

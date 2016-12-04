@@ -22,12 +22,11 @@ class BD_txt_Mysql {
             default  :
                 echo $texto;
         }
-        $ins = "insert into" . " BD_resposta(uploadid,nome,mens_cod,mens_env)" . " VALUES(?, ?, ?,?)";
+        $ins = "insert into" . " BD_resposta(uploadid,nome,mens_cod)" . " VALUES(?, ?, ?)";
         $BD = BD_txt_Mysql::connect()->prepare($ins);
         $BD->bindParam(1, $updateId);
         $BD->bindParam(2, $nome);
         $BD->bindParam(3, $comando);
-        $BD->bindParam(4, $men_rec);
         $BD->execute();
     }
     public static function recureraselect() {

@@ -16,14 +16,12 @@ $file = 'updateId.txt';
 $str = file_get_contents($file);
 $arrUpdateId = explode(',', $str);
 
-//define('BOT_TOKEN', '270416184:AAFicb_qx_TJSYtwLlQEHtYmyuQWytvCPl8');
-//define('API_URL', 'https://api.telegram.org/bot' . BOT_TOKEN . '/');
 
 $resultado = Send_mensage::upload();
 
 $var = count($resultado['result']) - 1;
 
-for ($x = $var; $x > 0; $x--) {
+for ($x = $var; $x >= 0; $x--) {
 
     $data = $resultado['result'][$x]['message']['date'];
     $dataTratada = Data::tratarData($data);
@@ -53,7 +51,7 @@ for ($x = $var; $x > 0; $x--) {
             $dados = BD_txt_Mysql::recureraselect();
             if (!in_array($updateId, $dados) && !in_array($updateId, $arrUpdateId)) {
                 $sort = sorteador_numero::sort_meg_sen(); //ativa a funçao sorteador
-                Send_mensage::sendMessage($id, $sort); //ativa a funcao mensagem.
+               Send_mensage::sendcomados("sendMessage",array('chat_id' => $id,"text" => $sort)); //ativa a funcao mensagem.
                 BD_txt_Mysql::InsertBanco_dando($updateId, $nome, $texto, $sort);
                 file_put_contents($file, $updateId . ',', FILE_APPEND | LOCK_EX);
             }
@@ -61,7 +59,7 @@ for ($x = $var; $x > 0; $x--) {
             $dados = BD_txt_Mysql::recureraselect();
             if (!in_array($updateId, $dados) && !in_array($updateId, $arrUpdateId)) {
                 $quin = sorteador_numero::sort_quin(); //ativa a funçao sorteador
-                Send_mensage::sendMessage($id, $quin); //ativa a funcao mensagem.
+               Send_mensage::sendcomados("sendMessage",array('chat_id' => $id,"text" => $quin)); //ativa a funcao mensagem.
                 BD_txt_Mysql::InsertBanco_dando($updateId, $nome, $texto, $quin);
                 file_put_contents($file, $updateId . ',', FILE_APPEND | LOCK_EX);
             }
@@ -69,7 +67,7 @@ for ($x = $var; $x > 0; $x--) {
             $dados = BD_txt_Mysql::recureraselect();
             if (!in_array($updateId, $dados) && !in_array($updateId, $arrUpdateId)) {
                 $re = "'Sr.'.$nome.' nao entendi,so comandos validos ex: /MegaSena ou /Quina '";
-                Send_mensage::sendMessage($id, $re); //ativa a funcao mensagem.
+                Send_mensage::sendcomados("sendMessage",array('chat_id' => $id,"text" => $re));; //ativa a funcao mensagem.
                 $mens = 'mensagem';
                 BD_txt_Mysql::InsertBanco_dando($updateId, $nome, $mens, $re);
                 file_put_contents($file, $updateId . ',', FILE_APPEND | LOCK_EX);
@@ -77,6 +75,15 @@ for ($x = $var; $x > 0; $x--) {
         }
 
         echo $dataTratada . "<br>" . $nome . " : " . $texto . "<br>" . "<br>";
+        
+        
+        
+        $update_response = file_get_contents("php://input");
+        $update = json_decode($update_response, true);
+
+        if (isset($update["message"])) {
+            processMessage($update["message"]);
+        }
     }
 }
 ?>
