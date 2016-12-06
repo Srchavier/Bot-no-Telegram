@@ -1,18 +1,16 @@
 <?php
 
 class BD_txt_Mysql {
-
     public static function connect() {
         try {
-            $dbh = new PDO("mysql:host=localhost;dbname=Script_telegram", "root", "");
-
+            $dbh = new PDO("mysql:host=localhost;dbname=Script_telegram", "root", "");//ser nao tiver usuario deixa assim.
+            //altera ser seu banco tive usuario altera "root"coloque o"nome_usuario",altera("")colocando a "senha" do banco.
             return $dbh;
         } catch (PDOException $ex) {
             print "Error!: " . $ex->getMessage() . "<br/>";
             die();
         }
     }
-
     public static function InsertBanco_dando($updateId, $nome, $texto) {
         $comando='0';
         switch ($texto) { case '/start':$comando = 1;break;
@@ -45,7 +43,6 @@ class BD_txt_Mysql {
             print $e->getMessage();
         }
     }
-
 }
 
 ?>

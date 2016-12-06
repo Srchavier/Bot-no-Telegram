@@ -5,7 +5,7 @@
 //..//
 require './funcao.php';
 require './Send_mensage.php';
-require 'BD_txt_Mysql.php';
+require 'BD_Mysql.php';
 //
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
