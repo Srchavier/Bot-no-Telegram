@@ -64,7 +64,7 @@ for ($x = $var; $x >= 0; $x--) {
         }else if (($texto == '/photo')) {
             $dados = BD_txt_Mysql::recureraselect();
             if (!in_array($updateId, $dados) && !in_array($updateId, $arrUpdateId)) {
-               $photo= 'http://www.nossoritmoribeirao.com.br/media/upload/noticias/terminaljeronimo11032015CarlosNatal6561.JPG';//ativa a funçao sorteador
+               $photo= 'http://www.nossoritmoribeirao.com.br/media/upload/noticias/terminaljeronimo11032015CarlosNatal6561.JPG';
                Send_mensage::sendcomados("sendPhoto",array('chat_id' => $id,"photo" => $photo,'caption' =>'Funcao em construcao')); //ativa a funcao mensagem.
                 BD_txt_Mysql::InsertBanco_dando($updateId, $nome, $texto);
                 file_put_contents($file, $updateId . ',', FILE_APPEND | LOCK_EX);
