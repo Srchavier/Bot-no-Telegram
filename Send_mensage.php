@@ -11,32 +11,26 @@
  *
  * @author Eduardo
  */
-class Send_mensage {
+$pon = fopen('updatetoken.txt', "r");
+        while (!feof($pon)) {
+            $linha = fgets($pon, 100);
+        }
+define('API_URL', 'https://api.telegram.org/bot' . $linha . '/');
 
+class Send_mensage {
     public static function upload() {
 
-        $pon = fopen('updatetoken.txt', "r");
-        while (!feof($pon)) {
-            $linha = fgets($pon, 200);
-        }
         try {
-            $URL = 'https://api.telegram.org/bot' . $linha . '/getUpdates';
-            $requisicao = file_get_contents($URL);
-            $resultado = json_decode($requisicao, true);
-            $var = count($resultado['result']) - 1;
-
-            return $resultado;
+            $URL =API_URL.'getUpdates';
+            $update_response = file_get_contents($URL);
+            $update = json_decode($update_response, true);
+            //$var = count($update['result']) - 1;
+            return $update;
         } catch (Exception $ex) {
             print "Error mensagem recebida!: " . $ex->getMessage() . "<br/>";
-        }
+        }      
     }
-
-    public static function sendcomados($id, $chat) {
-        $pon = fopen('updatetoken.txt', "r");
-        while (!feof($pon)) {
-            $linha = fgets($pon, 200);
-        }
-        define('API_URL', 'https://api.telegram.org/bot' . $linha . '/');
+    public static function sendcomados($id, $chat) {     
         $options = array(
             'http' => array(
                 'method' => 'POST',
@@ -47,6 +41,6 @@ class Send_mensage {
         );
         $context = stream_context_create($options);
         file_get_contents(API_URL . $id, false, $context);
-    }
 
+    }
 }
