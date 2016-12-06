@@ -13,12 +13,14 @@ class BD_txt_Mysql {
         }
     }
 
-    public static function InsertBanco_dando($updateId, $nome, $texto,$men_rec) {
+    public static function InsertBanco_dando($updateId, $nome, $texto) {
         $comando='0';
         switch ($texto) { case '/start':$comando = 1;break;
             case '/MegaSena':$comando = 2;break;
             case '/Quina':$comando = 3;break;
-            case 'mensagem':$comando = 4;break;
+            case '/photo':$comando = 4;break;
+            case 'mensagem':$comando = 5;break;
+            
             default  :
                 echo $texto;
         }

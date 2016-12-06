@@ -2,8 +2,6 @@ create database Script_telegram;
 
 use Script_telegram;
 
-
-
 CREATE TABLE BD_resposta (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     uploadid INT NOT NULL,
@@ -16,9 +14,7 @@ CREATE TABLE BD_resposta (
         REFERENCES comando (id)
 );
 
-drop table BD_resposta;
-
-CREATE TABLE comando (
+CREATE TABLE Comando (
     id INT UNSIGNED NOT NULL,
     nom_com VARCHAR(30),
     PRIMARY KEY (id)
@@ -28,9 +24,9 @@ insert into comando value
 (1,'/start'),
 (2,'/megasena'),
 (3,'/quina'),
-(4,'mensagem');
+(4,'/photo'),
+(5,'mensagem');
 
-drop table comando;
 select * from BD_resposta;
 select * from comando;
 
